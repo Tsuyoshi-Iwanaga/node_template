@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  app:
+    build:
+      context: "."
+      dockerfile: ./Dockerfile-node
+    tty: true
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../app:/app
+    working_dir: /app
+    environment:
+      - TZ=${TZ}
+    networks:
+      app_net:
+        ipv4_address: 172.30.0.5
+
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.0.0/24
+
+# volumes:
+#   volume01: {}
