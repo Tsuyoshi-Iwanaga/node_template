@@ -12,6 +12,8 @@ services:
     working_dir: /app
     environment:
       - TZ=${TZ}
+    depends_on:
+      - db
     networks:
       app_net:
         ipv4_address: 172.30.0.5
