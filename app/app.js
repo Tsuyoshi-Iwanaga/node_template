@@ -3,18 +3,31 @@ const express = require('express');
 const session = require('express-session')
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const cors = require('cors')
 
 //generate app
 const app = express();
 
+//set env
+require('dotenv').config();
+
 //set middleware
 app.use(logger('dev'));
+app.use(cors({
+  origin: process.env.CLIENTORIGIN,
+  credentials: true,
+  optionsSuccessStatus: 200,
+}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(session({
-  secret: 'keyboard cat',
+  secret: 'node_app_template',
   resave: true,
   saveUninitialized: false,
+  cookie: {
+    maxAge: 60000,
+    secure: false,
+  }
 }))
 app.use(cookieParser());
 
