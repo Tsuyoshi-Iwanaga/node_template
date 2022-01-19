@@ -7,6 +7,7 @@ const cors = require('cors')
 
 //generate app
 const app = express();
+app.set('trust proxy', 'uniquelocal');
 
 //set env
 require('dotenv').config();
@@ -20,16 +21,18 @@ app.use(cors({
 }))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use(session({
   secret: 'node_app_template',
   resave: true,
   saveUninitialized: false,
   cookie: {
+    httpOnly: true,
     maxAge: 60000,
-    secure: false,
+    secure: true,
+    sameSite: 'none',
   }
 }))
-app.use(cookieParser());
 
 //set Routing
 app.use(require('./routes/index'));
@@ -47,7 +50,7 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   res.status(err.status || 500);
-  res.send({ name: 'Error!', status: err.status });
+  res.send({ name: 'Error!', status: err });
 });
 
 module.exports = app;

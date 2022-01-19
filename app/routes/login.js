@@ -10,24 +10,37 @@ router.get('/login', (req, res, next) => {
 });
 
 router.post('/login',
-  passport.authenticate('local', {
-    failureRedirect: '/login/failure',
-    successRedirect: '/login/success'
-  })
+  passport.authenticate('local', { session: true }),
+  (req, res) => {
+    // res.cookie('hoge', 'hoge', {
+    //   httpOnly: true,
+    //   maxAge: 60000,
+    //   secure: true,
+    //   sameSite: 'none',
+    // })
+
+    console.log("==============")
+    console.log(req.session.hoge)
+    req.session.hoge = "hoge"
+    console.log(req.session.hoge)
+    console.log("==============")
+
+    res.json( {result: req.user })
+  }
 )
 
 router.get('/login/failure', (req, res) => {
-  res.send('Failure')
+  res.json({ result: 'false' })
 })
 
 router.get('/login/success', (req, res) => {
-  res.send(req.body.name)
+  res.json({ result: req.body.name })
 })
 
 router.post('/logout', (req, res) => {
   // req.session.passport.user = undefined;
   req.logout();
-  res.send('logout')
+  res.json({ result: req.user })
 })
 
 module.exports = router;
