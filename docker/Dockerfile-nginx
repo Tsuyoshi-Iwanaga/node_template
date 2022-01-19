@@ -1,0 +1,6 @@
+FROM nginx:alpine
+
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+
+ADD ./localhost.pem /etc/certs/localhost.pem
+ADD ./localhost-key.pem /etc/certs/localhost-key.pem

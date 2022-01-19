@@ -16,7 +16,20 @@ services:
       - db
     networks:
       app_net:
-        ipv4_address: 172.30.0.5
+        ipv4_address: 172.30.0.2
+
+  web:
+    build:
+      context: "."
+      dockerfile: ./Dockerfile-nginx
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - TZ=${TZ}
+    networks:
+      app_net:
+        ipv4_address: 172.30.0.3
 
   db:
     build:
