@@ -7,7 +7,7 @@ const cors = require('cors')
 
 //generate app
 const app = express();
-app.set('trust proxy', 'uniquelocal');
+app.set('trust proxy', 1);
 
 //set env
 require('dotenv').config();
@@ -26,9 +26,11 @@ app.use(session({
   secret: 'node_app_template',
   resave: true,
   saveUninitialized: false,
+  proxy: true,
   cookie: {
     httpOnly: true,
     maxAge: 60000,
+    domain: 'https://127.0.0.1:8080',
     secure: true,
     sameSite: 'none',
   }

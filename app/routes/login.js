@@ -10,20 +10,14 @@ router.get('/login', (req, res, next) => {
 });
 
 router.post('/login',
-  passport.authenticate('local', { session: true }),
+  passport.authenticate('local'),
   (req, res) => {
-    // res.cookie('hoge', 'hoge', {
+    // res.cookie('testCookie', 'testValue', {
     //   httpOnly: true,
     //   maxAge: 60000,
     //   secure: true,
     //   sameSite: 'none',
     // })
-
-    console.log("==============")
-    console.log(req.session.hoge)
-    req.session.hoge = "hoge"
-    console.log(req.session.hoge)
-    console.log("==============")
 
     res.json( {result: req.user })
   }
