@@ -1,8 +1,13 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const passport = require('../auth')
+const isAuthenticated = require('../isAuthenticated')
 const User = require('../models').User;
 
-router.get('/users', function(req, res, next) {
+router.use(passport.initialize())
+router.use(passport.session())
+
+router.get('/user', isAuthenticated, function(req, res, next) {
   User.findAll().then(users => {
     res.send(users)
   })

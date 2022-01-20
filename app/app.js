@@ -3,7 +3,7 @@ const express = require('express');
 const session = require('express-session')
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const cors = require('cors')
+const cors = require('cors');
 
 //generate app
 const app = express();

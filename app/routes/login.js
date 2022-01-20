@@ -5,10 +5,6 @@ const passport = require('../auth')
 router.use(passport.initialize())
 router.use(passport.session())
 
-router.get('/login', (req, res, next) => {
-  res.send({ name: 'ログインしてください'})
-});
-
 router.post('/login',
   passport.authenticate('local'),
   (req, res) => {
