@@ -16,14 +16,6 @@ router.post('/login',
   }
 )
 
-router.get('/login/failure', (req, res) => {
-  res.json({ result: 'false' })
-})
-
-router.get('/login/success', (req, res) => {
-  res.json({ result: req.body.name })
-})
-
 router.post('/logout', (req, res) => {
   // req.session.passport.user = undefined;
   req.logout();
