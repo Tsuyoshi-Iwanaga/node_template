@@ -12,13 +12,6 @@ router.get('/login', (req, res, next) => {
 router.post('/login',
   passport.authenticate('local'),
   (req, res) => {
-    // res.cookie('testCookie', 'testValue', {
-    //   httpOnly: true,
-    //   maxAge: 60000,
-    //   secure: true,
-    //   sameSite: 'none',
-    // })
-
     res.json( {result: req.user })
   }
 )

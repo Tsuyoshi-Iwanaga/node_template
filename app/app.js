@@ -30,7 +30,6 @@ app.use(session({
   cookie: {
     httpOnly: true,
     maxAge: 60000,
-    domain: 'https://127.0.0.1:8080',
     secure: true,
     sameSite: 'none',
   }
