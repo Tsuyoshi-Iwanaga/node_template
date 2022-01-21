@@ -8,9 +8,7 @@ router.use(passport.initialize())
 router.use(passport.session())
 
 router.get('/user', isAuthenticated, function(req, res, next) {
-  User.findAll().then(users => {
-    res.send(users)
-  })
+  res.json(req.user)
 });
 
 module.exports = router;
