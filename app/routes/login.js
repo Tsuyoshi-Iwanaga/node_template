@@ -7,12 +7,18 @@ const User = require('../models').User;
 router.use(passport.initialize())
 router.use(passport.session())
 
-router.post('/login',
-  passport.authenticate('local'),
-  (req, res) => {
-    res.json(req.user)
-  }
-)
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if(err) { return next(err) }
+
+    if(!user) { return res.status(403).json({ message: "入力内容に誤りがあります" }) }
+
+    req.logIn(user, (err) => {
+      if(err) { return res.status(403).json({ message: "ログインに失敗しました" }) }
+      return res.json(user)
+    })
+  })(req, res, next)
+})
 
 router.post('/logout', (req, res) => {
   req.logout();
