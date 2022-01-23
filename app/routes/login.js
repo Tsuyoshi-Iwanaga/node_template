@@ -1,8 +1,9 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
 const passport = require('../auth')
 const bcrypt = require('bcryptjs')
-const User = require('../models').User;
+const isAuthenticated = require('../isAuthenticated')
+const User = require('../models').User
 
 router.use(passport.initialize())
 router.use(passport.session())
@@ -41,6 +42,31 @@ router.post('/create', (req, res) => {
   } else {
     res.status(403).json({ message: "invalid request" })
   }
+})
+
+router.post('/reset', isAuthenticated, (req, res, next) => {
+  const now_pass = req.body.now_pass
+  const new_pass = req.body.new_pass
+  const confirm_pass = req.body.confirm_pass
+
+  if(!now_pass || !new_pass || new_pass !== confirm_pass || now_pass === new_pass) {
+    return res.status(403).json({message: '入力内容に誤りがあります / Error 001'})
+  }
+
+  User.findByPk(req.user.id)
+  .then(user => {
+    if (user && bcrypt.compareSync(now_pass, user.password)) {
+      user.password = bcrypt.hashSync(new_pass, bcrypt.genSaltSync(8))
+      user.updatedAt = new Date()
+      user.save()
+      req.logout();
+      return res.json({message: 'パスワードの変更が完了しました'})
+    }
+    return res.status(403).json({message: '入力内容に誤りがあります'})
+  })
+  .catch(error => {
+    return res.status(403).json({message: '対象のユーザが存在しません'})
+  })
 })
 
 module.exports = router;
