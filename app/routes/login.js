@@ -109,7 +109,7 @@ router.post('/forget', [passwordEmailValidationRules] , (req, res) => {
     where: {
       email: email
     },
-    default: {
+    defaults: {
       email: email,
       token: token,
       createdAt: new Date(),
@@ -119,7 +119,6 @@ router.post('/forget', [passwordEmailValidationRules] , (req, res) => {
   .then(([passwordForget, created]) => {
     if(!created) {
       passwordForget.token = token
-      passwordForget.createdAt = new Date()
       passwordForget.updatedAt = new Date()
       passwordForget.save()
     }
