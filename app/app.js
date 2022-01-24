@@ -6,6 +6,7 @@ const cors = require('cors');
 const session = require('express-session');
 const Sequelize = require('sequelize');
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
+const checkCSRF = require('./checkCSRF')
 
 //generate app
 const app = express();
@@ -17,14 +18,12 @@ const config = require('./config/config.js')[process.env.NODE_ENV || 'developmen
 
 //set middleware
 app.use(logger('dev'));
-
-//cors
 app.use(cors({
-  origin: process.env.CLIENTORIGIN,
+  origin: process.env.CLIENT_ORIGIN,
   credentials: true,
   optionsSuccessStatus: 200,
 }))
-
+app.use(checkCSRF)
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
