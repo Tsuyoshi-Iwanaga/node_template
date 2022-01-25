@@ -63,7 +63,6 @@ app.use(session({
 }))
 
 //set Routing
-app.use(require('./routes/index'));
 app.use(require('./routes/users'));
 app.use(require('./routes/login'));
 
