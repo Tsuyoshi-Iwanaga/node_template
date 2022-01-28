@@ -19,21 +19,28 @@ docker-compose up -d
 
 ## マイグレーション
 
+Usersのマイグレーションを作成する
+
 ```
 npx sequelize-cli migration:generate --name Users
 ```
+
+Usersモデルを作成する(こちらは自動的にマイグレーションファイルも生成される)
 
 ```
 npx sequelize-cli model:generate --name User --attributes name:string,email:string,password:string
 ```
 
-```
-docker-compose exec app npx sequelize-cli db:migrate
-```
+マイグレーションを実行する
 
 ```
-docker-compose exec app npx sequelize-cli db:migrate:undo
-docker-compose exec app npx sequelize-cli db:migrate:all
+npx sequelize-cli db:migrate
+```
+
+マイグレーションを巻き戻す
+
+```
+sequelize-cli db:migrate:undo
 ```
 
 ## シーディング
@@ -43,5 +50,5 @@ npx sequelize-cli seed:generate --name test-users
 ```
 
 ```
-docker-compose exec app npx sequelize-cli db:seed:all
+npx sequelize-cli db:seed:all
 ```
