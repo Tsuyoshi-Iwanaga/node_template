@@ -1,7 +1,5 @@
 const app = require('../app')
 const request = require('supertest')
-const User = require('../models').User;
-const { resolveContent } = require('nodemailer/lib/shared');
 
 require('dotenv').config();
 
