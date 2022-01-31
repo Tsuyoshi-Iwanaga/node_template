@@ -7,7 +7,7 @@ const agent = request.agent(app)
   .set('Content-type', 'application/json')
   .set('X-Requested-With', 'XMLHttpRequest')
   .set('host', process.env.APP_HOST)
-  .set('origin', process.env.CLIENT_ORIGIN)
+  .set('origin', `https://${process.env.CLIENT_HOST}`)
 
 const testUser = {
   name: 'テスト 太郎1',
@@ -132,7 +132,7 @@ describe('login', () => {
       expect(res.statusCode).toBe(200)
       expect(res.body.name).toBe(testUser.name)
       expect(res.header["access-control-allow-credentials"]).toBe("true")
-      expect(res.header["access-control-allow-origin"]).toBe(process.env.CLIENT_ORIGIN)
+      expect(res.header["access-control-allow-origin"]).toBe(`https://${process.env.CLIENT_HOST}`)
     })
   })
 })

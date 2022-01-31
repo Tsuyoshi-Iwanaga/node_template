@@ -19,7 +19,7 @@ const config = require('./config/config.js')[process.env.NODE_ENV || 'developmen
 //set middleware
 app.use(logger('dev'));
 app.use(cors({
-  origin: process.env.CLIENT_ORIGIN,
+  origin: `https://${process.env.CLIENT_HOST}`,
   credentials: true,
   optionsSuccessStatus: 200,
 }))
